@@ -22,6 +22,12 @@ export const AddParticipantForm = () => {
         title: "Қатысушыны тіркеу",
         message: "Қатысушы сәтті қосылды",
       });
+      setName("");
+      setPlace("");
+      setTeacherData({
+        teacher_full_name: "",
+        teacher_phone: "",
+      });
     },
     onError: (e) => {
       console.log(e, "Error");

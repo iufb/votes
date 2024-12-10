@@ -6,6 +6,7 @@ import {
   Loader,
   LoadingOverlay,
   Select,
+  Modal,
   Text,
   Title,
 } from "@mantine/core";
@@ -16,12 +17,18 @@ import {
   GetParticipantRequest,
 } from "./shared/api/routes";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { getCookie } from "cookies-next/client";
 import { notifications } from "@mantine/notifications";
+import { queryClient } from "./shared";
+import Link from "next/link";
+import Script from "next/script";
+import { useDisclosure } from "@mantine/hooks";
 
 export const VoteView = () => {
+  const [opened, { open, close }] = useDisclosure(false);
   const params = useParams();
+  const router = useRouter();
   const userInfo = JSON.parse(getCookie("userInfo") as string);
   const {
     data: participants,
@@ -59,23 +66,32 @@ export const VoteView = () => {
 
   const handleNext = async () => {
     try {
-      // const scorePromises = Object.keys(marks[current]).map((key) => {
-      //   return addScore({
-      //     juri_id: userInfo.id,
-      //     participant_id: participants[current].id,
-      //     stage: params.id as string,
-      //     score: marks[current][key],
-      //     criterion_id: Number(key),
-      //   });
-      // });
-      //
-      // // Wait for all promises to resolve
-      // await Promise.all(scorePromises);
+      const scorePromises = Object.keys(marks[current]).map((key) => {
+        return addScore({
+          juri_id: userInfo.id,
+          participant_id: participants[current].id,
+          stage: params.id as string,
+          score: marks[current][key],
+          criterion_id: Number(key),
+        });
+      });
 
+      // Wait for all promises to resolve
+      await Promise.all(scorePromises);
+      queryClient.invalidateQueries({ queryKey: ["scoresTable"] });
       // Notify success
       console.log("Scores submitted successfully!");
 
-      setCurrent((prev) => prev + 1);
+      if (current >= participants.length - 1) {
+        const stage = Number(params.id);
+        if (Number(params.id) <= 2) {
+          open();
+          return;
+        } else {
+        }
+      } else {
+        setCurrent((prev) => prev + 1);
+      }
     } catch (error) {
       // Handle any error
       console.error("Error submitting scores:", error);
@@ -164,6 +180,38 @@ export const VoteView = () => {
           Келесі
         </Button>
       </Flex>
+      <NextModal
+        opened={opened}
+        close={close}
+        href={params.id == "1" ? "/vote/2" : "/result"}
+        title={params.id == "1" ? "Келесі кезеңге өтіңіз" : "Нәтижелер"}
+      />
+      <Script src="/script.js" type="text/javascript" />
     </Flex>
+  );
+};
+
+const NextModal = ({
+  opened,
+  close,
+  href,
+  title,
+}: {
+  opened: boolean;
+  close: () => void;
+  href: string;
+  title: string;
+}) => {
+  return (
+    <Modal opened={opened} onClose={close} title={title}>
+      <Flex justify={"space-evenly"}>
+        <Button onClick={close} variant="outline">
+          Бас тарту
+        </Button>
+        <Link href={href}>
+          <Button>Өту</Button>
+        </Link>
+      </Flex>
+    </Modal>
   );
 };

@@ -47,3 +47,16 @@ export const GetCriteriousesRequest = (stage: string) => {
 export const GetUserInfoRequest = () => {
   return customFetch({ method: "GET", path: "get-user-info" });
 };
+export const GetParticipantsScore = (stage: string) => {
+  return customFetch({
+    method: "GET",
+    path: "participants_scores",
+    query: { stage },
+  });
+};
+export const GetFinalScore = () => {
+  return customFetch({
+    method: "GET",
+    path: "participants_scores",
+  });
+};
