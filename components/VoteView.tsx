@@ -15,6 +15,7 @@ import {
   AddScoreRequest,
   GetCriteriousesRequest,
   GetParticipantRequest,
+  GetParticipantsScore,
 } from "./shared/api/routes";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -37,8 +38,14 @@ export const VoteView = () => {
   } = useQuery({
     queryKey: ["all-participants"],
     queryFn: async () => {
-      const data = await GetParticipantRequest();
-      return data;
+      const participants = await GetParticipantRequest();
+      // Необходимо создать новый массив , с теми участниками, кто прошел.
+
+      // if (params.id == "2") {
+      //   const stageOneResult = await GetParticipantsScore("1");
+      //
+      // }
+      return participants;
     },
   });
   const { data: criteriuses, isLoading: isCriteriousLoading } = useQuery({

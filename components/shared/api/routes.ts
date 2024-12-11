@@ -1,4 +1,5 @@
 import { customFetch } from ".";
+import { ParticipantType } from "../types";
 export const LoginRequst = (data: { username: string; password: string }) => {
   return customFetch(
     {
@@ -34,9 +35,42 @@ export const AddScoreRequest = (data: {
     body: { json: data },
   });
 };
-export const GetParticipantRequest = () => {
-  return customFetch({ method: "GET", path: "get-part" });
+export const GetParticipantsRequest = () => {
+  return customFetch({
+    method: "GET",
+    path: "participants",
+  });
 };
+export const UpdateParticipantsRequest = (data: Partial<ParticipantType>) => {
+  return customFetch({
+    method: "PATCH",
+    path: `participants/${data.id}/`,
+    body: { json: data },
+  });
+};
+export const GetCount = () => {
+  return customFetch({
+    method: "GET",
+    path: "count",
+  });
+};
+export const SetCount = async (count: string) => {
+  const counts = await GetCount();
+  if (counts.length > 0) {
+    return customFetch({
+      method: "PATCH",
+      path: `count/1/`,
+      body: { json: { count } },
+    });
+  } else {
+    return customFetch({
+      method: "POST",
+      path: "count/",
+      body: { json: { count } },
+    });
+  }
+};
+
 export const GetCriteriousesRequest = (stage: string) => {
   return customFetch({
     method: "GET",

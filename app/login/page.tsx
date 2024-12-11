@@ -1,9 +1,9 @@
 import { Flex } from "@mantine/core";
 import { LoginForm } from "../../components/LoginForm";
 
-export default function Login() {
+export default async function Page() {
   return (
-    <Flex mih={"100vh"} align={"center"} justify={"center"}>
+    <Flex justify={"center"} align={"center"} mih={"100vh"} p={30}>
       <LoginForm />
     </Flex>
   );

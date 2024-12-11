@@ -5,7 +5,7 @@ import { AddScoreModal } from "./AddScoreModal";
 import { GetCount, GetParticipantsRequest } from "./shared/api/routes";
 import { ParticipantType } from "./shared/types";
 
-export const ResultTable = () => {
+export const StageResultTable = ({ stage }: { stage: string }) => {
   const {
     data: participants,
     isLoading,
@@ -14,11 +14,13 @@ export const ResultTable = () => {
     queryKey: ["participants"],
     queryFn: async () => {
       const data: ParticipantType[] = await GetParticipantsRequest();
-      const { count } = (await GetCount())[0];
+      if (stage == "2") {
+        const { count } = (await GetCount())[0];
+        console.log(count);
 
-      return data
-        .sort((a, b) => b.stage_one + b.stage_two - (a.stage_one + a.stage_two))
-        .slice(0, count);
+        return data.sort((a, b) => b.stage_one - a.stage_one).slice(0, count);
+      }
+      return data;
     },
   });
   if (isLoading)
@@ -47,10 +49,27 @@ export const ResultTable = () => {
             fw={"bold"}
             style={{ borderRadius: 4 }}
           >
-            {participant.stage_one + participant.stage_two}
+            {participant.stage_one ? participant.stage_one : 0}
           </Text>
         </Flex>
       </Table.Td>
+      {stage == "2" && (
+        <Table.Td>
+          <Flex maw={150} gap={5} align={"center"} justify={"space-between"}>
+            <Text
+              miw={42}
+              bg={"abu"}
+              c={"white"}
+              ta={"center"}
+              p={7}
+              fw={"bold"}
+              style={{ borderRadius: 4 }}
+            >
+              {participant.stage_two ? participant.stage_two : 0}
+            </Text>
+          </Flex>
+        </Table.Td>
+      )}
     </Table.Tr>
   ));
 
@@ -70,7 +89,8 @@ export const ResultTable = () => {
           <Table.Tr>
             <Table.Th>Аты жөні</Table.Th>
             <Table.Th>Оқу орны</Table.Th>
-            <Table.Th>Нәтиже</Table.Th>
+            <Table.Th>1 кезең</Table.Th>
+            {stage == "2" && <Table.Th>2 кезең</Table.Th>}
           </Table.Tr>
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>

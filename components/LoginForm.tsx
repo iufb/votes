@@ -18,16 +18,14 @@ export const LoginForm = () => {
     onSuccess: (data) => {
       console.log(data);
       setCookie("token", data.token);
-      GetUserInfoRequest().then((data) =>
-        setCookie("userInfo", JSON.stringify(data)),
-      );
+
       notifications.show({
         color: "green.6",
         title: "Кіру",
         message: "Сәтті кіру",
       });
 
-      router.push("/vote/1");
+      router.push("/admin/1");
     },
     onError: (e) => {
       console.log(e, "Error");
