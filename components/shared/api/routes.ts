@@ -35,6 +35,13 @@ export const AddScoreRequest = (data: {
     body: { json: data },
   });
 };
+export const AddParticipantsRequest = (data: any) => {
+  return customFetch({
+    method: "POST",
+    path: "participants/",
+    body: { json: data },
+  });
+};
 export const GetParticipantsRequest = () => {
   return customFetch({
     method: "GET",

@@ -59,7 +59,7 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
   const rows = participants.map((participant) => (
     <Table.Tr key={participant.id}>
       <Table.Td>{participant.full_name}</Table.Td>
-      <Table.Td>{participant.place_of_study}</Table.Td>
+      <Table.Td>{participant.place_of_study ?? "-"}</Table.Td>
       <Table.Td>
         <Flex maw={150} gap={5} align={"center"} justify={"space-between"}>
           <Text

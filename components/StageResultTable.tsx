@@ -37,7 +37,7 @@ export const StageResultTable = ({ stage }: { stage: string }) => {
   const rows = participants.map((participant) => (
     <Table.Tr key={participant.id}>
       <Table.Td>{participant.full_name}</Table.Td>
-      <Table.Td>{participant.place_of_study}</Table.Td>
+      {/* <Table.Td>{participant.place_of_study}</Table.Td> */}
       <Table.Td>
         <Flex maw={150} gap={5} align={"center"} justify={"space-between"}>
           <Text
@@ -88,7 +88,8 @@ export const StageResultTable = ({ stage }: { stage: string }) => {
         <Table.Thead>
           <Table.Tr>
             <Table.Th>Аты жөні</Table.Th>
-            <Table.Th>Оқу орны</Table.Th>
+
+            {/* <Table.Th>Оқу орны</Table.Th> */}
             <Table.Th>1 кезең</Table.Th>
             {stage == "2" && <Table.Th>2 кезең</Table.Th>}
           </Table.Tr>

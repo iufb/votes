@@ -1,85 +1,54 @@
 "use client";
-import { Button, TextInput, Title } from "@mantine/core";
+import { Button, Textarea, Title } from "@mantine/core";
+import { useMutation } from "@tanstack/react-query";
 import { FormEvent, useState } from "react";
 import { FormContainer } from "./FormContainer";
-import { useMutation } from "@tanstack/react-query";
-import { AddParticipantRequest } from "./shared/api/routes";
-import { notifications } from "@mantine/notifications";
+import { AddParticipantsRequest } from "./shared/api/routes";
+import { ErrorNotification, SuccessNotification } from "./shared/utils";
 
 export const AddParticipantForm = () => {
-  const [name, setName] = useState("");
-  const [place, setPlace] = useState("");
-  const [teacherData, setTeacherData] = useState({
-    teacher_full_name: "",
-    teacher_phone: "",
-  });
+  const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const { mutate: add, isPending } = useMutation({
     mutationKey: ["addParticipant"],
-    mutationFn: AddParticipantRequest,
-    onSuccess: () => {
-      notifications.show({
-        color: "green.6",
-        title: "Қатысушыны тіркеу",
-        message: "Қатысушы сәтті қосылды",
-      });
-      setName("");
-      setPlace("");
-      setTeacherData({
-        teacher_full_name: "",
-        teacher_phone: "",
-      });
-    },
-    onError: (e) => {
-      console.log(e, "Error");
-      notifications.show({
-        color: "red.6",
-        title: "Қатысушыны тіркеу",
-        message: "Қосу кезінде қате",
-      });
-    },
+    mutationFn: AddParticipantsRequest,
   });
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    add({ full_name: name, place_of_study: place, ...teacherData });
+    const data = JSON.parse(value);
+    try {
+      if (!Array.isArray(data)) {
+        throw new Error("Not array");
+      }
+      setLoading(true);
+
+      for (const item of data) {
+        add(item); // Wait for the promise to resolve
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+      }
+
+      SuccessNotification("Added");
+    } catch (e) {
+      console.log(e);
+      ErrorNotification("Error occurred");
+    }
+    setLoading(false);
+    console.log(data);
   };
   return (
     <form onSubmit={handleSubmit}>
       <FormContainer maw={"30vw"}>
         <Title order={3}>Қатысушыны тіркеу</Title>
-        <TextInput
-          label="ФИО"
+        <Textarea
+          autosize
+          minRows={4}
+          label="Данные JSON"
           required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextInput
-          label="Оқу орны"
-          required
-          value={place}
-          onChange={(e) => setPlace(e.target.value)}
-        />
-        <TextInput
-          label="Мұғалімнің аты"
-          required
-          value={teacherData.teacher_full_name}
-          onChange={(e) =>
-            setTeacherData({
-              ...teacherData,
-              teacher_full_name: e.target.value,
-            })
-          }
-        />
-        <TextInput
-          label="Мұғалімнің телефоны"
-          required
-          type="number"
-          value={teacherData.teacher_phone}
-          onChange={(e) =>
-            setTeacherData({ ...teacherData, teacher_phone: e.target.value })
-          }
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
         />
 
-        <Button type="submit" disabled={isPending} loading={isPending}>
+        <Button type="submit" disabled={loading} loading={loading}>
           Тіркеу
         </Button>
       </FormContainer>
