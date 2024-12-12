@@ -83,7 +83,7 @@ export const ResultTable = ({
         highlightOnHover
         withColumnBorders
         striped
-        style={{ fontSize: "1.5rem" }}
+        style={{ fontSize: "2.14rem" }}
       >
         <Table.Thead>
           <Table.Tr>
