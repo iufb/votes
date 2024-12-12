@@ -32,8 +32,9 @@ export const ResultTable = () => {
   if (!participants || participants.length == 0)
     return <Title>Не найдены</Title>;
 
-  const rows = participants.map((participant) => (
+  const rows = participants.map((participant, idx) => (
     <Table.Tr key={participant.id}>
+      <Table.Td>{idx + 1}</Table.Td>
       <Table.Td>{participant.full_name}</Table.Td>
       <Table.Td>{participant.place_of_study}</Table.Td>
       <Table.Td>
@@ -68,6 +69,7 @@ export const ResultTable = () => {
       >
         <Table.Thead>
           <Table.Tr>
+            <Table.Th>Орны</Table.Th>
             <Table.Th>Аты жөні</Table.Th>
             <Table.Th>Оқу орны</Table.Th>
             <Table.Th>Нәтиже</Table.Th>
