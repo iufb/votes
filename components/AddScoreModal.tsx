@@ -50,7 +50,12 @@ export const AddScoreModal = ({ stage, id }: { stage: number; id: number }) => {
         </Flex>
       </Modal>
 
-      <Button variant="filled" onClick={open}>
+      <Button
+        disabled={isPending}
+        loading={isPending}
+        variant="filled"
+        onClick={open}
+      >
         Өзгерту
       </Button>
     </>
