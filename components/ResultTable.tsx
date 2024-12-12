@@ -67,7 +67,7 @@ export const ResultTable = ({
             ta={"center"}
             p={7}
             fw={"bold"}
-            style={{ borderRadius: 4 }}
+            style={{ borderRadius: 4, fontSize: "2rem" }}
           >
             {participant.stage_one + participant.stage_two}
           </Text>
@@ -83,7 +83,7 @@ export const ResultTable = ({
         highlightOnHover
         withColumnBorders
         striped
-        style={{ fontSize: "2.14rem" }}
+        style={{ fontSize: "1.9rem" }}
       >
         <Table.Thead>
           <Table.Tr>
