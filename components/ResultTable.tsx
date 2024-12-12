@@ -20,6 +20,7 @@ export const ResultTable = () => {
         .sort((a, b) => b.stage_one + b.stage_two - (a.stage_one + a.stage_two))
         .slice(0, count);
     },
+    refetchInterval: 3000,
   });
   if (isLoading)
     return (
