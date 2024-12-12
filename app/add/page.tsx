@@ -1,5 +1,5 @@
 import { Flex } from "@mantine/core";
-import { AddParticipantForm } from "../../components";
+import { AddParticipantForm } from "../../components/AddParticipantForm";
 
 export default async function Page() {
   return (
