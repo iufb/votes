@@ -32,7 +32,7 @@ export const ResultWrapper = () => {
     return <Title>Не найдены</Title>;
   return (
     <Flex direction={"column"} gap={10}>
-      <Title ta={"center"} order={1}>
+      <Title ta={"center"} order={1} style={{ fontSize: "2.3rem" }}>
         Қатысушылар
       </Title>
       <Flex gap={10}>
