@@ -22,6 +22,7 @@ export const StageResultTable = ({ stage }: { stage: string }) => {
       }
       return data;
     },
+    refetchInterval: 3000,
   });
   if (isLoading)
     return (
