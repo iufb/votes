@@ -36,7 +36,7 @@ export const ResultTable = () => {
     <Table.Tr key={participant.id}>
       <Table.Td>{idx + 1}</Table.Td>
       <Table.Td>{participant.full_name}</Table.Td>
-      <Table.Td>{participant.place_of_study}</Table.Td>
+      {/* <Table.Td>{participant.place_of_study}</Table.Td> */}
       <Table.Td>
         <Flex maw={150} gap={5} align={"center"} justify={"space-between"}>
           <Text
@@ -71,7 +71,7 @@ export const ResultTable = () => {
           <Table.Tr>
             <Table.Th>Орны</Table.Th>
             <Table.Th>Аты жөні</Table.Th>
-            <Table.Th>Оқу орны</Table.Th>
+            {/* <Table.Th>Оқу орны</Table.Th> */}
             <Table.Th>Нәтиже</Table.Th>
           </Table.Tr>
         </Table.Thead>
