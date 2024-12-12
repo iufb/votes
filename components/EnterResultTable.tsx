@@ -57,8 +57,9 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
   if (!participants || participants.length == 0)
     return <Title>Не найдены</Title>;
 
-  const rows = participants.map((participant) => (
+  const rows = participants.map((participant, idx) => (
     <Table.Tr key={participant.id}>
+      <Table.Td>{idx + 1}</Table.Td>
       <Table.Td>{participant.full_name}</Table.Td>
       <Table.Td>{participant.place_of_study ?? "-"}</Table.Td>
       <Table.Td>{participant.teacher_full_name}</Table.Td>
@@ -109,6 +110,7 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
       <Table withTableBorder highlightOnHover withColumnBorders striped>
         <Table.Thead>
           <Table.Tr>
+            <Table.Th>№</Table.Th>
             <Table.Th>Аты жөні</Table.Th>
             <Table.Th>Оқу орны</Table.Th>
             <Table.Th>Мұғалімнің аты-жөні</Table.Th>
