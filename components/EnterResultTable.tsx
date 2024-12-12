@@ -26,6 +26,7 @@ import {
   ErrorNotification,
 } from "./shared/utils";
 import { useRouter } from "next/navigation";
+import { isPrerenderInterruptedError } from "next/dist/server/app-render/dynamic-rendering";
 
 export const EnterResultTable = ({ stage }: { stage: string }) => {
   const {
@@ -60,6 +61,8 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
     <Table.Tr key={participant.id}>
       <Table.Td>{participant.full_name}</Table.Td>
       <Table.Td>{participant.place_of_study ?? "-"}</Table.Td>
+      <Table.Td>{participant.teacher_full_name}</Table.Td>
+      <Table.Td>{participant.teacher_phone}</Table.Td>
       <Table.Td>
         <Flex maw={150} gap={5} align={"center"} justify={"space-between"}>
           <Text
@@ -108,6 +111,8 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
           <Table.Tr>
             <Table.Th>Аты жөні</Table.Th>
             <Table.Th>Оқу орны</Table.Th>
+            <Table.Th>Мұғалімнің аты-жөні</Table.Th>
+            <Table.Th>Мұғалімнің нөмірі</Table.Th>
             <Table.Th>1 кезең</Table.Th>
             {stage == "2" && <Table.Th>2 кезең</Table.Th>}
           </Table.Tr>
@@ -144,7 +149,12 @@ const EnterCountForSecondStageModal = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <Button onClick={() => toSecond(value)} variant="filled">
+          <Button
+            disabled={isPending}
+            loading={isPending}
+            onClick={() => toSecond(value)}
+            variant="filled"
+          >
             Сақтау
           </Button>
         </Flex>
