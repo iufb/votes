@@ -4,8 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AddScoreModal } from "./AddScoreModal";
 import { GetCount, GetParticipantsRequest } from "./shared/api/routes";
 import { ParticipantType } from "./shared/types";
-
-export const ResultTable = () => {
+export const ResultWrapper = () => {
   const {
     data: participants,
     isLoading,
@@ -15,7 +14,6 @@ export const ResultTable = () => {
     queryFn: async () => {
       const data: ParticipantType[] = await GetParticipantsRequest();
       const { count } = (await GetCount())[0];
-
       return data
         .sort((a, b) => b.stage_one + b.stage_two - (a.stage_one + a.stage_two))
         .slice(0, count);
@@ -32,10 +30,32 @@ export const ResultTable = () => {
     );
   if (!participants || participants.length == 0)
     return <Title>Не найдены</Title>;
+  return (
+    <Flex direction={"column"} gap={10}>
+      <Title ta={"center"} order={1}>
+        Қатысушылар
+      </Title>
+      <Flex gap={10}>
+        <ResultTable lvl={0} participants={participants.slice(0, 9)} />
+        <ResultTable
+          lvl={9}
+          participants={participants.slice(9, participants.length)}
+        />
+      </Flex>
+    </Flex>
+  );
+};
 
+export const ResultTable = ({
+  participants,
+  lvl,
+}: {
+  participants: ParticipantType[];
+  lvl: number;
+}) => {
   const rows = participants.map((participant, idx) => (
     <Table.Tr key={participant.id}>
-      <Table.Td>{idx + 1}</Table.Td>
+      <Table.Td>{lvl + idx + 1}</Table.Td>
       <Table.Td>{participant.full_name}</Table.Td>
       {/* <Table.Td>{participant.place_of_study}</Table.Td> */}
       <Table.Td>
@@ -51,16 +71,13 @@ export const ResultTable = () => {
           >
             {participant.stage_one + participant.stage_two}
           </Text>
-        </Flex>
+        </Flex>{" "}
       </Table.Td>
     </Table.Tr>
   ));
 
   return (
-    <Flex gap={10} direction={"column"} p={10}>
-      <Title ta={"center"} order={1}>
-        Қатысушылар
-      </Title>
+    <Flex flex={1} gap={10} direction={"column"} p={10}>
       <Table
         withTableBorder
         highlightOnHover
@@ -70,7 +87,7 @@ export const ResultTable = () => {
       >
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Орны</Table.Th>
+            <Table.Th>Р/С</Table.Th>
             <Table.Th>Аты жөні</Table.Th>
             {/* <Table.Th>Оқу орны</Table.Th> */}
             <Table.Th>Нәтиже</Table.Th>
