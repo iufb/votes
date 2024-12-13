@@ -41,7 +41,7 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
         const { count } = (await GetCount())[0];
         console.log(count);
 
-        return data.sort((a, b) => b.stage_one - a.stage_one).slice(0, count);
+        return data.slice(0, count);
       }
       return data;
     },
