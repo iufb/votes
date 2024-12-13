@@ -18,7 +18,7 @@ export const AddScoreModal = ({ stage, id }: { stage: number; id: number }) => {
     mutationFn: UpdateParticipantsRequest,
     onSuccess: () => {
       SuccessNotification("Нәтиже қосылды");
-      Invalidate([`participants ${stage}`]);
+      Invalidate([`participants`]);
       close();
     },
     onError: (e) => {

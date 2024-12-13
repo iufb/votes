@@ -34,7 +34,7 @@ export const EnterResultTable = ({ stage }: { stage: string }) => {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: [`participants ${stage}`],
+    queryKey: [`participants`],
     queryFn: async () => {
       const data: ParticipantType[] = await GetParticipantsRequest();
       if (stage == "2") {
